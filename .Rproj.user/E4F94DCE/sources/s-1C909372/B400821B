@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1558379817839.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "B400821B",
+    "lastKnownWriteTime" : 4294967300,
+    "last_content_update" : 1558379817839,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "2FE2DFD3",
+        "caption" : "prosel",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=prosel&cache_key=2FE2DFD3",
+        "displayedObservations" : 4,
+        "environment" : "",
+        "expression" : "prosel",
+        "object" : "prosel",
+        "preview" : 0,
+        "totalObservations" : 4,
+        "variables" : 14
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

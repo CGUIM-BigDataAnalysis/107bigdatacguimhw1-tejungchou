@@ -1,0 +1,37 @@
+library(SportsAnalytics)
+NBA1819<-fetch_NBAPlayerStatistics("18-19")
+install.packages("data.table")
+library(dplyr)
+library(data.table)
+NBA1819T<-data.table(NBA1819)
+NBA1819T[,sum(TotalPoints>2000)]
+＃同上
+NBA1819T[TotalPoints>2000,.N] 
+NBA1819T[TotalPoints>2000,.(Smean=mean(Steals),TR=mean(TotalRebounds))]
+filter(NBA1819,TotalPoints>2000)%>%
+summarise(Smean=mean(Steals),TR=mean(TotalRebounds))
+
+NBA1819T[GamesPlayed>50,.(Smean=mean(Steals),TR=mean(TotalRebounds)),by=Position]
+
+filter(NBA1819,GamesPlayed>50)%>%
+group_by(Position)%>%
+  summarise(Smean=mean(Steals),TR=mean(TotalRebounds))
+
+
+a<-arrange(NBA1819,Team,desc(TotalPoints))%>%
+  group_by(Team)%>%
+  slice(1)
+
+table(mtcars$cyl,mtcars$am)
+?mtcars
+
+
+mtTable<-table(mtcars$cyl,mtcars$am)
+mtTable
+##prop.table(mtTable,margin = 1)
+chisq.test(mtTable)
+fisher.test(mtTable) ##For such small counts, you could use Fisher's exact test
+
+
+
+

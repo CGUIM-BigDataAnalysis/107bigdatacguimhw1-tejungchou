@@ -1,0 +1,76 @@
+library(jsonlite)
+library(dplyr)
+X103<-X103education
+X104<-X104education
+X105<-X105education
+X106<-X106education
+X106$大職業別<-gsub("_","、",X106$大職業別)
+join103106<-inner_join(X103,X106,by="大職業別")
+#沒有數據無法比較（在此處我將它設為0）
+join103106$`大學-薪資.x`<-as.numeric(gsub("—","0",join103106$`大學-薪資.x`))
+join103106$`大學-薪資.y`<-as.numeric(gsub("—","0",join103106$`大學-薪資.y`))
+join103106<-mutate(join103106,adrate=(join103106$`大學-薪資.y`)/(join103106$`大學-薪資.x`))
+join103106<-arrange(join103106,desc(adrate))
+#取出前10
+top10<-head(join103106,10)
+#取出超過5%的職業
+s<-subset(join103106,adrate>1.05)
+#切割取職業
+cat<-c()
+for(i in 1:58){
+cat<-c(cat,strsplit(s$大職業別,"-")[[i]][1])
+}
+c<-as.data.frame(table(cat))
+as.data.frame(c)%>%
+  arrange(desc(Freq))
+#資料清洗
+X103$`大學-女/男`<-gsub("…","0",X103$`大學-女/男`)
+X103$`大學-女/男`<-gsub("—","0",X103$`大學-女/男`)
+X103$`大學-女/男`<-as.numeric(X103$`大學-女/男`)
+
+X104$`大學-女/男`<-gsub("…","0",X104$`大學-女/男`)
+X104$`大學-女/男`<-gsub("—","0",X104$`大學-女/男`)
+X104$`大學-女/男`<-as.numeric(X104$`大學-女/男`)
+
+X105$`大學-女/男`<-gsub("…","0",X105$`大學-女/男`)
+X105$`大學-女/男`<-gsub("—","0",X105$`大學-女/男`)
+X105$`大學-女/男`<-as.numeric(X105$`大學-女/男`)
+
+X106$`大學-女/男`<-gsub("…","0",X106$`大學-女/男`)
+X106$`大學-女/男`<-gsub("—","0",X106$`大學-女/男`)
+X106$`大學-女/男`<-as.numeric(X106$`大學-女/男`)
+#把所有表格按照年份做成一份大表格
+library(tidyr)
+join103to106<-rbind(X103,X104,X105,X106)
+#過濾掉值為0的項目再進行排序
+join103to106<-filter(join103to106,`大學-女/男`!="0")%>%
+  arrange(`大學-女/男`)
+#由小到大前10
+je<-head(join103to106,10)
+je$大職業別
+#由小到大後10（同由大到小前10）
+tail(join103to106,10)
+
+
+
+X106$`大學-薪資`<-gsub("—","0",X106$`大學-薪資`)
+X106$`大學-薪資`<-as.numeric(X106$`大學-薪資`)
+X106$`研究所及以上-薪資`<-gsub("—","0",X106$`研究所及以上-薪資`)
+X106$`研究所及以上-薪資`<-as.numeric(X106$`研究所及以上-薪資`)
+X106<-mutate(X106,GtoUNG=(X106$`研究所及以上-薪資`)/(X106$`大學-薪資`))
+X106top<-filter(X106,GtoUNG!="NaN")%>%
+  arrange(desc(GtoUNG))%>%
+  head(10)
+
+join103to106<-rbind(X103,X104,X105,X106)
+prosel<-filter(join103to106,大職業別%in%"資訊及通訊傳播業-專業人員")
+ungra<-as.numeric(prosel$`大學-薪資`)
+gra<-as.numeric(prosel$`研究所及以上-薪資`)
+#比我想像中低很多 我認為大學畢業起薪要35K左右 研究所則要45k以上
+gra-ungra
+#相差大約4600~6400元 算是意料之中
+##不會改變心意，仍舊會繼續讀研究所
+#因為讀研究所後較好升遷
+#且工程師多數拚年薪，而不是看月薪
+#所以升遷快可以領越多年薪
+
