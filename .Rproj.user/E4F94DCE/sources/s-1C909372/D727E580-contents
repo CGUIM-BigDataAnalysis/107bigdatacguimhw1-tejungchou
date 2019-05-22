@@ -64,7 +64,7 @@ X106$`研究所及以上-薪資`<-as.numeric(X106$`研究所及以上-薪資`)
 #按照提高比例由大到小排序
 join103106<-arrange(join103106,desc(adrate))
 #呈現前十名資料
-knitr::kable(head(join103106,10)$大職業別) 
+knitr::kable(head(join103106,10)$大職業別,col.names = "薪資成長職業",row.names = T) 
 #文字說明
 ##106年相對103年，大學畢業者薪資提高比例由大到小前十名為:
 ##1.其他服務業-技術員及助理專業人員 
@@ -84,7 +84,7 @@ knitr::kable(head(join103106,10)$大職業別)
 ```{r over5}
 #取出薪資增加超過5%的職業
 s<-subset(join103106,adrate>1.05)
-knitr::kable(s$大職業別)
+knitr::kable(s$大職業別,col.names = "增加超過5%職業",row.names = T)
 ```
 
 ### 主要的職業種別是哪些種類呢?
@@ -117,7 +117,7 @@ join103to106<-filter(join103to106,`大學-女/男`!="0")%>%
   arrange(`大學-女/男`)%>%
   filter(`大學-女/男`<100)
 #由小到大前10
-knitr::kable(head(join103to106,10)$大職業別)
+knitr::kable(head(join103to106,10)$大職業別,col.names = "男生薪資比女生高的職業",row.names = T)
 #文字說明
 ##男生薪資比女生薪資高的前10名中，礦業及土石採取業（4項）、電力及燃氣供應業（2項）及教育服務業（2項）為最高
 ##且教育服務業中也有一項為機械設備操作及組裝人員
@@ -130,7 +130,7 @@ join103to106<-filter(join103to106,`大學-女/男`!="0")%>%
   arrange(desc(`大學-女/男`))%>%
   filter(`大學-女/男`>100)
 #由大到小前10
-knitr::kable(head(join103to106,10)$大職業別)
+knitr::kable(head(join103to106,10)$大職業別,col.names = "女生薪資比男生高的職業",row.names = T)
 #文字說明
 ##女生薪資較男生高的職業別僅三項，相較於男生薪資較高的數量少非常多
 ##我認為男女同工不同酬的現象是存在的
@@ -148,7 +148,7 @@ X106top<-filter(X106,GtoUNG!="NaN")%>%
   arrange(desc(GtoUNG))%>%
   head(10)
 #為以下10種職業
-knitr::kable(X106top$大職業別)
+knitr::kable(X106top$大職業別,col.names = "研究所薪資增加比例前10職業",row.names = T)
 #文字說明
 ##前10大職業別多數為理工產業相關職業
 ##包括礦業、專業科學、工業等
