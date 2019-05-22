@@ -270,8 +270,6 @@ cat<-c()
 for(i in 1:58){
 cat<-c(cat,strsplit(s$大職業別,"-")[[i]][1])
 }
-
-
 c<-as.data.frame(table(cat))
 as.data.frame(c)%>%
   arrange(desc(Freq))
